@@ -1,0 +1,82 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./audex-authenticated-project-api
+      dockerfile: Dockerfile
+    container_name: audex_backend
+    expose:
+      - "5000"
+    ports:
+      - "127.0.0.1:5000:5000"
+    environment:
+      NODE_ENV: production
+      PORT: 5000
+      LOG_LEVEL: info
+    restart: unless-stopped
+    networks:
+      - audex_network
+    healthcheck:
+      test: ["CMD", "node", "healthcheck.js"]
+      interval: 30s
+      timeout: 5s
+      start_period: 10s
+      retries: 3
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
+        reservations:
+          cpus: '0.5'
+          memory: 256M
+    security_opt:
+      - no-new-privileges:true
+    read_only: false
+    tmpfs:
+      - /tmp
+      - /run
+
+  frontend:
+    build:
+      context: "./audex Front"
+      dockerfile: Dockerfile
+    container_name: audex_frontend
+    expose:
+      - "80"
+    ports:
+      - "80:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - audex_network
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/"]
+      interval: 30s
+      timeout: 5s
+      start_period: 5s
+      retries: 3
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256M
+        reservations:
+          cpus: '0.25'
+          memory: 128M
+    security_opt:
+      - no-new-privileges:true
+    read_only: false
+    tmpfs:
+      - /var/cache/nginx
+      - /var/run
+
+networks:
+  audex_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
