@@ -1,0 +1,90 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f4f6f8;
+  color: #222;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.app {
+  min-height: 100vh;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  background: white;
+  border-bottom: 1px solid #ddd;
+}
+
+.header h1 {
+  margin: 0;
+}
+
+.subtitle {
+  margin: 5px 0 0;
+  color: #666;
+}
+
+.user-info {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.user-info select {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: white;
+}
+
+.nav {
+  display: flex;
+  gap: 20px;
+  padding: 15px 40px;
+  background: #20252b;
+}
+
+.nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.nav a:hover {
+  text-decoration: underline;
+}
+
+.main {
+  padding: 40px;
+}
+
+.context-card {
+  max-width: 700px;
+  padding: 24px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.context-card h2 {
+  margin-top: 0;
+}
+
+.page-content {
+  max-width: 700px;
+  margin-top: 25px;
+  padding: 24px;
+  background: white;
+  border-radius: 10px;
+}
+
+.page-content h2 {
+  margin-top: 0;
+}
